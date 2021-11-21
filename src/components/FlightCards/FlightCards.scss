@@ -1,0 +1,150 @@
+.cards {
+}
+.cards__row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.cards__item {
+}
+
+.flight-card {
+    padding: 10px;
+}
+.flight-card__container {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+}
+.flight-card__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+
+    background-color: rgb(62, 110, 214);
+    color: white;
+}
+.flight-card__price {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+.flight-card__price-title {
+    align-self: flex-end;
+}
+.flight-card__price-bottom {
+    text-align: right;
+    font-size: 0.6em;
+}
+.flight-card__legs-separator {
+    margin: 0;
+    border-width: 2px;
+    border-top-color: rgb(116, 160, 255);
+}
+.flight-card__leg {
+}
+
+.flight-card__icon {
+}
+
+.flight-card__content {
+}
+.flight-card__select-btn {
+    transition: 0.2s;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    background-color: rgb(255, 182, 46);
+    color: white;
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+.card-leg {
+    padding: 10px 15px;
+}
+.card-leg__header {
+}
+.card-leg__airport {
+    display: flex;
+    gap: 5px;
+
+    @media (max-width: 500px) {
+        gap: 0px;
+
+        align-items: center;
+        flex-direction: column;
+    }
+}
+.card-leg__airport-name {
+    white-space: nowrap;
+}
+
+.card-leg__airport-short,
+.card-leg__arrow {
+    color: rgb(62, 110, 214);
+}
+
+.card-leg__arrow {
+    @media (max-width: 500px) {
+        flex: 1 1 100%;
+    }
+}
+.card-leg__separator {
+}
+.card-leg__time-info-row {
+    padding: 4px 0 6px 0;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    @media (max-width: 375px) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.card-leg__time-block {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 5px;
+
+    @media (max-width: 375px) {
+        &:first-child {
+            align-self: flex-start;
+        }
+        &:last-child {
+            align-self: flex-end;
+        }
+    }
+}
+.card-leg__time {
+}
+.card-leg__date {
+    font-size: 0.8em;
+    color: rgb(62, 110, 214);
+}
+.card-leg__transfer-separator {
+    position: relative;
+    height: 1px;
+    margin: 7px 20px;
+    background-color: rgba(58, 58, 58, 0.5);
+}
+.card-leg__transfer-count {
+    position: absolute;
+
+    top: -12px;
+    transform: translateX(-50%);
+    left: 50%;
+    right: 50%;
+    width: max-content;
+    padding: 3px;
+    background-color: white;
+    color: orange;
+}
+.card-leg__airline {
+    margin-top: 15px;
+    font-size: 0.8em;
+}
