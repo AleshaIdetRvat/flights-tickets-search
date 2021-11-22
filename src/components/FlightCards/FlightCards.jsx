@@ -130,17 +130,20 @@ const Card = (props) => {
 }
 
 const FlightCards = (props) => {
-    const { flights } = props
-
+    const { flights, visibleCardsCount, showMore } = props
+    console.log("FlightCards render")
     console.log("flights", flights)
 
     return (
         <div className='cards'>
             <ul className='cards__row'>
-                {flights.map((flight, i) => {
+                {flights.slice(0, visibleCardsCount).map((flight, i) => {
                     return <Card {...flight} key={flight.id + i} />
                 })}
             </ul>
+            <button className='cards__show-more-btn' onClick={showMore}>
+                Показать ещё
+            </button>
         </div>
     )
 }

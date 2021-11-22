@@ -1,23 +1,17 @@
 import React from "react"
-import { getAirlinesNamesAndPrice } from "../../utils/selectors"
 import "./Sidebar.scss"
 
 const SortOptions = (props) => {
-    const {} = props
+    const { onChange } = props
 
     return (
-        <article class='sidebar__options-block cards-sort'>
-            <h2 class='cards-sort__title'>Сортировать</h2>
+        <article className='sidebar__options-block cards-sort'>
+            <h2 className='cards-sort__title'>Сортировать</h2>
 
-            <form
-                class='cards-sort__options'
-                onChange={(event) =>
-                    console.log(`event.target.value`, event.target.value)
-                }
-            >
+            <form className='cards-sort__options' onChange={onChange}>
                 <label>
                     <input
-                        class='cards-sort__option-item'
+                        className='cards-sort__option-item'
                         type='radio'
                         value='1'
                         name='sort'
@@ -27,7 +21,7 @@ const SortOptions = (props) => {
 
                 <label>
                     <input
-                        class='cards-sort__option-item'
+                        className='cards-sort__option-item'
                         type='radio'
                         value='2'
                         name='sort'
@@ -37,7 +31,7 @@ const SortOptions = (props) => {
 
                 <label>
                     <input
-                        class='cards-sort__option-item'
+                        className='cards-sort__option-item'
                         type='radio'
                         value='3'
                         name='sort'
@@ -53,18 +47,18 @@ const FilterOptions = (props) => {
     const {} = props
 
     return (
-        <article class='sidebar__options-block cards-filter'>
-            <h2 class='cards-filter__title'>Фильтровать</h2>
+        <article className='sidebar__options-block cards-filter'>
+            <h2 className='cards-filter__title'>Фильтровать</h2>
 
             <form
-                class='cards-filter__options'
+                className='cards-filter__options'
                 onChange={(event) =>
                     console.log(`event.target.value`, event.target.value)
                 }
             >
                 <label>
                     <input
-                        class='cards-filter__option-item'
+                        className='cards-filter__option-item'
                         type='checkbox'
                         value='1'
                     />{" "}
@@ -73,7 +67,7 @@ const FilterOptions = (props) => {
 
                 <label>
                     <input
-                        class='cards-filter__option-item'
+                        className='cards-filter__option-item'
                         type='checkbox'
                         value='2'
                     />{" "}
@@ -88,11 +82,11 @@ const PriceOptions = (props) => {
     const {} = props
 
     return (
-        <article class='sidebar__options-block cards-price'>
-            <h2 class='cards-price__title'>Цена</h2>
+        <article className='sidebar__options-block cards-price'>
+            <h2 className='cards-price__title'>Цена</h2>
 
             <form
-                class='cards-price__options'
+                className='cards-price__options'
                 onChange={(event) =>
                     console.log(`event.target.value`, event.target.value)
                 }
@@ -100,7 +94,7 @@ const PriceOptions = (props) => {
                 <label>
                     От{" "}
                     <input
-                        class='cards-price__option-item'
+                        className='cards-price__option-item'
                         type='text'
                         placeholder='руб.'
                         // value='1'
@@ -110,7 +104,7 @@ const PriceOptions = (props) => {
                 <label>
                     До{" "}
                     <input
-                        class='cards-price__option-item'
+                        className='cards-price__option-item'
                         type='text'
                         placeholder='руб.'
                         // value='2'
@@ -124,14 +118,12 @@ const PriceOptions = (props) => {
 const AirlineOptions = (props) => {
     const { airlinesNamesAndPrices } = props
 
-    const tempAirlines = ["LOT Polish", "Аэрофлот"]
-
     return (
-        <article class='sidebar__options-block cards-airlines'>
-            <h2 class='cards-airlines__title'>Авиакомпании</h2>
+        <article className='sidebar__options-block cards-airlines'>
+            <h2 className='cards-airlines__title'>Авиакомпании</h2>
 
             <form
-                class='cards-airlines__options'
+                className='cards-airlines__options'
                 onChange={(event) =>
                     console.log(
                         `event.target.value`,
@@ -142,9 +134,12 @@ const AirlineOptions = (props) => {
             >
                 {airlinesNamesAndPrices.map(({ name, price }) => {
                     return (
-                        <label class='cards-airlines__option-item'>
+                        <label
+                            className='cards-airlines__option-item'
+                            key={name}
+                        >
                             <input type='checkbox' value={name} />{" "}
-                            <div class='cards-airlines__name'>- {name}</div>
+                            <div className='cards-airlines__name'>- {name}</div>
                             <span>от {price} р.</span>
                         </label>
                     )
@@ -155,17 +150,15 @@ const AirlineOptions = (props) => {
 }
 
 const Sidebar = (props) => {
-    const { flights } = props
+    const { airlineOptions, onSortFlights } = props
 
     return (
-        <div class='sidebar'>
-            <div class='sidebar__container'>
-                <SortOptions />
+        <div className='sidebar'>
+            <div className='sidebar__container'>
+                <SortOptions onChange={onSortFlights} />
                 <FilterOptions />
                 <PriceOptions />
-                <AirlineOptions
-                    airlinesNamesAndPrices={getAirlinesNamesAndPrice(flights)}
-                />
+                <AirlineOptions airlinesNamesAndPrices={airlineOptions} />
             </div>
         </div>
     )

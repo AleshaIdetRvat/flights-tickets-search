@@ -6,7 +6,6 @@ const getFlights = (flightsData) => {
 
 export const getFlightsForCards = (flightsData) => {
     const flights = getFlights(flightsData)
-    console.log("flights", flights)
 
     return flights.map(({ carrier, legs, price, id }, i) => {
         const { total } = price
@@ -78,7 +77,16 @@ export const getSortedFlights = (flightsForCards, sortType) => {
 
             break
         case 3:
-            sortFunction = (a, b) => +b.price.amount - +a.price.amount
+            sortFunction = (a, b) => {
+                const aDuration = a.legs.reduce(
+                    (prev, curr) => prev.duration + curr.duration
+                )
+                const bDuration = b.legs.reduce(
+                    (prev, curr) => prev.duration + curr.duration
+                )
+
+                return aDuration - bDuration
+            }
 
             break
 
@@ -86,7 +94,9 @@ export const getSortedFlights = (flightsForCards, sortType) => {
             return flightsForCards
     }
 
-    return flightsForCards.sort(sortFunction)
+    const flightsForCardsCopy = [...flightsForCards]
+
+    return flightsForCardsCopy.sort(sortFunction)
 }
 
 export const getAirlinesNamesAndPrice = (flightsForCards) => {
