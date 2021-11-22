@@ -31,8 +31,6 @@ const CardLeg = (props) => {
         }
     }
 
-    console.log("arrivalCity", arrivalCity)
-
     return (
         <div className='flight-card__leg card-leg'>
             <header className='card-leg__header'>

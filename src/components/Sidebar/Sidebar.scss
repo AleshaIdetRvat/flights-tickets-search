@@ -1,3 +1,96 @@
 .sidebar {
-    color: red;
+    color: rgb(0, 56, 88);
+}
+
+.sidebar__container {
+    padding: 30px 15px 30px 25px;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.sidebar__options-block {
+}
+
+// Sort
+.cards-sort {
+}
+
+.cards-sort__title,
+.cards-filter__title,
+.cards-price__title,
+.cards-airlines__title {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.cards-sort__options,
+.cards-filter__options,
+.cards-price__options,
+.cards-airlines__options {
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cards-sort__option-item {
+}
+
+// Filter
+.sidebar__options-block {
+}
+
+.cards-filter {
+}
+
+.cards-sort__title {
+}
+
+.cards-filter__options {
+}
+
+.cards-filter__option-item {
+}
+// Price
+
+.sidebar__options-block {
+}
+
+.cards-price {
+}
+
+.cards-price__title {
+}
+
+.cards-price__options {
+}
+
+.cards-price__option-item {
+}
+
+// Airlines
+.sidebar__options-block {
+}
+
+.cards-airlines {
+}
+
+.cards-airlines__title {
+}
+
+.cards-airlines__options {
+    width: 200px;
+}
+
+.cards-airlines__option-item {
+    display: flex;
+    gap: 5px;
+}
+
+.cards-airlines__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

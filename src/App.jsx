@@ -1,21 +1,23 @@
 import React, { useState } from "react"
 import { Sidebar } from "./components/Sidebar/Sidebar"
 import { FlightCards } from "./components/FlightCards/FlightCards"
-import { getFlightsForCards } from "./utils/selectors"
+import { getFlightsForCards, getSortedFlights } from "./utils/selectors"
 import "./App.css"
 
 function App({ flightsData }) {
-    // console.log("all flights", getFlightsForCards(flightsData).slice(0, 5))
-    // const [flights, setFlights] = useState(getFlightsForCards(flightsData))
-    const flights = getFlightsForCards(flightsData)
+    const [flights, setFlights] = useState(getFlightsForCards(flightsData))
+
+    console.log(`getSortedFlights`, getSortedFlights(flights.slice(0, 20)))
+
     return (
         <main className='app'>
             <div className='app__container'>
                 <aside className='app__sidebar'>
-                    <Sidebar />
+                    <Sidebar flights={flights.slice(0, 20)} />
                 </aside>
+
                 <div className='app__cards'>
-                    <FlightCards flights={flights} />
+                    <FlightCards flights={flights.slice(0, 20)} />
                 </div>
             </div>
         </main>

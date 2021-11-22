@@ -6,6 +6,7 @@ const getFlights = (flightsData) => {
 
 export const getFlightsForCards = (flightsData) => {
     const flights = getFlights(flightsData)
+    console.log("flights", flights)
 
     return flights.map(({ carrier, legs, price, id }, i) => {
         const { total } = price
@@ -16,17 +17,8 @@ export const getFlightsForCards = (flightsData) => {
             let correctAirline =
                 startSegment.operatingAirline || startSegment.airline
 
-            // if (typeof correctAirline !== "string") {
-            //     correctAirline = correctAirline.caption
-            // }
-
             if (segments.length > 1) {
                 const endSegment = segments[segments.length - 1]
-
-                if (i === 114) {
-                    console.log("startSegment", startSegment)
-                    console.log("endSegment", endSegment)
-                }
 
                 return {
                     numberOfTransfers: segments.length - 1,
@@ -61,11 +53,58 @@ export const getFlightsForCards = (flightsData) => {
         })
 
         return {
+            airline: filteredLegs[0].airline,
             carrier,
             legs: filteredLegs,
             price: { ...total },
             id,
         }
+    })
+}
+
+export const getSortedFlights = (flightsForCards, sortType) => {
+    // 1 - sort by price ascending
+    // 2 - sort descending price
+    // 3 - sort by duration
+    let sortFunction
+
+    switch (+sortType) {
+        case 1:
+            sortFunction = (a, b) => +a.price.amount - +b.price.amount
+
+            break
+        case 2:
+            sortFunction = (a, b) => +b.price.amount - +a.price.amount
+
+            break
+        case 3:
+            sortFunction = (a, b) => +b.price.amount - +a.price.amount
+
+            break
+
+        default:
+            return flightsForCards
+    }
+
+    return flightsForCards.sort(sortFunction)
+}
+
+export const getAirlinesNamesAndPrice = (flightsForCards) => {
+    const flights = flightsForCards.map(({ airline, price }) => ({
+        name: airline.caption,
+        price: +price.amount,
+    }))
+
+    const airlinesNames = flightsForCards.map(({ airline }) => airline.caption)
+
+    const uniqueAirlinesNames = [...new Set(airlinesNames)]
+
+    return uniqueAirlinesNames.map((uniqueName) => {
+        const oneNameAirlines = flights.filter(
+            ({ name }) => name === uniqueName
+        )
+
+        return oneNameAirlines.sort((a, b) => a.price - b.price)[0]
     })
 }
 
