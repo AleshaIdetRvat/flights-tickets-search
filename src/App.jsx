@@ -5,30 +5,58 @@ import {
     getFlightsForCards,
     getSortedFlights,
     getAirlinesNamesAndPrice,
+    filterByTransferAmount,
+    filterByPriceFromTo,
 } from "./utils/selectors"
 import "./App.css"
 
 function App({ flightsData }) {
     const [flights, setFlights] = useState(getFlightsForCards(flightsData))
+    const [filteredFlights, setFilteredFlights] = useState(flights)
+    console.log(`filteredFlights`, filteredFlights.length)
 
     const [visibleCardsCount, setVisibleCardsCount] = useState(2)
 
-    const showMore = () => setVisibleCardsCount(visibleCardsCount + 2)
+    const [filterParams, setFilterParams] = React.useState({
+        sortType: -1,
+        transferAmount: {
+            zeroTransfer: false,
+            oneTransfer: false,
+        },
+        price: {
+            from: -1,
+            to: -1,
+        },
+    })
 
-    // React.useEffect(() => {}, [])
-    // console.log(`getSortedFlights`, getSortedFlights(flights.slice(0, 20), 3))
+    console.log(`filterParams`, filterParams)
 
-    const onSortFlights = (e) => {
-        const sortType = +e.target.value
+    const onChangeSidebar = () => {
+        const { sortType, transferAmount, price } = filterParams
 
-        console.log(sortType)
+        console.log(filterParams)
 
         const sortedFl = getSortedFlights(flights, sortType)
-        console.log(`sortedFl`, sortedFl)
-        setFlights(sortedFl)
+
+        let filteredFromTo = sortedFl
+
+        if (sortType === 1) {
+            filteredFromTo = filterByPriceFromTo(sortedFl, price.from, price.to)
+        } else if (sortType === 2) {
+            filteredFromTo = filterByPriceFromTo(sortedFl, price.to, price.from)
+        }
+
+        const filteredFl = filterByTransferAmount(
+            filteredFromTo,
+            transferAmount
+        )
+
+        setFilteredFlights(filteredFl)
     }
 
-    window.setFlights = setFlights
+    React.useEffect(() => {
+        onChangeSidebar()
+    }, [filterParams])
 
     const airlineOptions = React.useMemo(
         () => getAirlinesNamesAndPrice(flights),
@@ -40,17 +68,20 @@ function App({ flightsData }) {
             <div className='app__container'>
                 <aside className='app__sidebar'>
                     <Sidebar
-                        airlineOptions={[]}
+                        filterParams={filterParams}
+                        setFilterParams={setFilterParams}
                         airlineOptions={airlineOptions}
-                        onSortFlights={onSortFlights}
+                        onChangeSidebar={onChangeSidebar}
                     />
                 </aside>
 
                 <div className='app__cards'>
                     <FlightCards
-                        flights={flights}
+                        flights={filteredFlights}
                         visibleCardsCount={visibleCardsCount}
-                        showMore={showMore}
+                        showMore={() =>
+                            setVisibleCardsCount(visibleCardsCount + 2)
+                        }
                     />
                 </div>
             </div>

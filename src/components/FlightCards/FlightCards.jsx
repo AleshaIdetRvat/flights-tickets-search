@@ -131,8 +131,6 @@ const Card = (props) => {
 
 const FlightCards = (props) => {
     const { flights, visibleCardsCount, showMore } = props
-    console.log("FlightCards render")
-    console.log("flights", flights)
 
     return (
         <div className='cards'>
@@ -141,9 +139,11 @@ const FlightCards = (props) => {
                     return <Card {...flight} key={flight.id + i} />
                 })}
             </ul>
-            <button className='cards__show-more-btn' onClick={showMore}>
-                Показать ещё
-            </button>
+            {visibleCardsCount < flights.length - 1 && (
+                <button className='cards__show-more-btn' onClick={showMore}>
+                    Показать ещё
+                </button>
+            )}
         </div>
     )
 }

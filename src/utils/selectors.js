@@ -60,7 +60,6 @@ export const getFlightsForCards = (flightsData) => {
         }
     })
 }
-
 export const getSortedFlights = (flightsForCards, sortType) => {
     // 1 - sort by price ascending
     // 2 - sort descending price
@@ -97,6 +96,64 @@ export const getSortedFlights = (flightsForCards, sortType) => {
     const flightsForCardsCopy = [...flightsForCards]
 
     return flightsForCardsCopy.sort(sortFunction)
+}
+
+export const filterByTransferAmount = (flightsForCards, transfersFlags) => {
+    const { zeroTransfer, oneTransfer } = transfersFlags
+
+    if (zeroTransfer === oneTransfer) return flightsForCards
+
+    if (zeroTransfer) {
+        return flightsForCards.filter((flight) => {
+            const [first, second] = flight.legs
+            return first.numberOfTransfers + second.numberOfTransfers === 0
+        })
+    }
+
+    if (oneTransfer) {
+        return flightsForCards.filter((flight) => {
+            const [first, second] = flight.legs
+            return (
+                (first.numberOfTransfers === 1 && second.numberOfTransfers) ===
+                1
+            )
+        })
+    }
+}
+
+export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
+    let sortedFlights
+
+    for (let i = 0; i < flightsForCards.length; i++) {
+        if (priceFrom === -1) {
+            sortedFlights = flightsForCards
+            break
+        }
+
+        const { price } = flightsForCards[i]
+
+        if (priceFrom <= +price.amount) {
+            sortedFlights = flightsForCards.slice(i)
+            break
+        }
+    }
+    console.log("sortedFlights 0 ", sortedFlights)
+
+    for (let i = 0; i < sortedFlights.length; i++) {
+        if (priceTo === -1) {
+            break
+        }
+        const { price } = sortedFlights[i]
+
+        if (priceTo <= +price.amount) {
+            sortedFlights = sortedFlights.slice(0, i)
+            break
+        }
+    }
+
+    console.log("sortedFlights 1 ", sortedFlights)
+
+    return sortedFlights
 }
 
 export const getAirlinesNamesAndPrice = (flightsForCards) => {
