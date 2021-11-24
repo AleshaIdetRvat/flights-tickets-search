@@ -101,7 +101,10 @@ export const getSortedFlights = (flightsForCards, sortType) => {
 export const filterByTransferAmount = (flightsForCards, transfersFlags) => {
     const { zeroTransfer, oneTransfer } = transfersFlags
 
+    console.log("zeroTransfer === oneTransfer", zeroTransfer === oneTransfer)
+
     if (zeroTransfer === oneTransfer) return flightsForCards
+    console.log("zeroTransfer === oneTransfer", zeroTransfer === oneTransfer)
 
     if (zeroTransfer) {
         return flightsForCards.filter((flight) => {
@@ -125,7 +128,7 @@ export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
     let sortedFlights
 
     for (let i = 0; i < flightsForCards.length; i++) {
-        if (priceFrom === "") {
+        if (priceFrom === "" || priceFrom === 0) {
             sortedFlights = flightsForCards
             break
         }
@@ -139,7 +142,7 @@ export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
     }
 
     for (let i = 0; i < sortedFlights.length; i++) {
-        if (priceTo === "") {
+        if (priceTo === "" || priceTo === 0) {
             break
         }
 

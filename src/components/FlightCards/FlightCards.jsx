@@ -97,13 +97,13 @@ const CardLeg = (props) => {
 }
 
 const Card = (props) => {
-    const { legs, carrier, price } = props
+    const { legs, airline, price } = props
 
     return (
         <li className='cards__item flight-card'>
             <div className='flight-card__container'>
                 <header className='flight-card__header'>
-                    <div className='flight-card__icon'>{carrier.caption}</div>
+                    <div className='flight-card__icon'>{airline.caption}</div>
                     <div className='flight-card__price'>
                         <h3 className='flight-card__price-title'>
                             {price.amount} ₽

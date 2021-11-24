@@ -38,17 +38,23 @@ function App({ flightsData }) {
         console.log(filterParams)
 
         let sortedFl = getSortedFlights(flights, sortType)
-
+        console.log(`sortedFl 1`, sortedFl)
         let filteredFromTo = sortedFl
 
-        if (price.from !== "" || price.to !== "") {
+        if (
+            price.from !== "" ||
+            price.to !== "" ||
+            price.from !== 0 ||
+            price.to !== 0
+        ) {
             switch (sortType) {
                 case 2:
                     filteredFromTo = filterByPriceFromTo(
-                        sortedFl,
-                        price.to,
-                        price.from
-                    )
+                        sortedFl.reverse(),
+                        price.from,
+                        price.to
+                    ).reverse()
+                    console.log("filteredFromTo in switch", filteredFromTo)
                     break
 
                 case 3:
@@ -71,14 +77,22 @@ function App({ flightsData }) {
             }
         }
 
+        console.log(`sortedFl 2`, filteredFromTo)
+
         const filteredFl = filterByTransferAmount(
             filteredFromTo,
             transferAmount
         )
 
+        console.log(`sortedFl 3`, filteredFl)
+
         const filteredByAirline = filterByAirlines(filteredFl, airlines)
-        console.log(`filteredByAirline`, filteredByAirline)
+
+        console.log(`sortedFl 4`, filteredByAirline)
+
         setFilteredFlights(filteredByAirline)
+
+        // console.log(`filteredFlights`, filteredFlights)
     }
 
     React.useEffect(() => {
