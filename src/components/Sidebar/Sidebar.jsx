@@ -114,30 +114,24 @@ const PriceOptions = (props) => {
 }
 
 const AirlineOptions = (props) => {
-    const { airlinesNamesAndPrices } = props
+    const { onChange, airlinesNamesAndPrices } = props
 
     return (
         <article className='sidebar__options-block cards-airlines'>
             <h2 className='cards-airlines__title'>Авиакомпании</h2>
 
-            <form
-                className='cards-airlines__options'
-                onChange={(event) =>
-                    console.log(
-                        `event.target.value`,
-                        event.target.value,
-                        event.target.checked
-                    )
-                }
-            >
+            <form className='cards-airlines__options' onChange={onChange}>
                 {airlinesNamesAndPrices.map(({ name, price }) => {
                     return (
                         <label
                             className='cards-airlines__option-item'
                             key={name}
                         >
-                            <input type='checkbox' value={name} />{" "}
-                            <div className='cards-airlines__name'>- {name}</div>
+                            <input type='checkbox' value={name} />
+                            <div className='cards-airlines__name'>
+                                {" "}
+                                - {name}
+                            </div>
                             <span>от {price} р.</span>
                         </label>
                     )
@@ -177,6 +171,24 @@ const Sidebar = (props) => {
             },
         })
     }
+    const onChangeAirlineOptions = ({ target }) => {
+        const { checked, value } = target
+
+        let newAirlines
+
+        if (checked) {
+            newAirlines = [...filterParams.airlines, value]
+        } else {
+            newAirlines = filterParams.airlines.filter(
+                (airline) => airline !== value
+            )
+        }
+
+        setFilterParams({
+            ...filterParams,
+            airlines: newAirlines,
+        })
+    }
 
     return (
         <div className='sidebar'>
@@ -184,7 +196,10 @@ const Sidebar = (props) => {
                 <SortOptions onChange={onChangeSortOptions} />
                 <FilterOptions onChange={onChangeFilterOptions} />
                 <PriceOptions onChange={onChangePriceOptions} />
-                <AirlineOptions airlinesNamesAndPrices={airlineOptions} />
+                <AirlineOptions
+                    onChange={onChangeAirlineOptions}
+                    airlinesNamesAndPrices={airlineOptions}
+                />
             </div>
         </div>
     )

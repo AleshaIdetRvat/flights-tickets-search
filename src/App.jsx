@@ -7,13 +7,13 @@ import {
     getAirlinesNamesAndPrice,
     filterByTransferAmount,
     filterByPriceFromTo,
+    filterByAirlines,
 } from "./utils/selectors"
 import "./App.css"
 
 function App({ flightsData }) {
     const [flights, setFlights] = useState(getFlightsForCards(flightsData))
     const [filteredFlights, setFilteredFlights] = useState(flights)
-    console.log(`filteredFlights`, filteredFlights.length)
 
     const [visibleCardsCount, setVisibleCardsCount] = useState(2)
 
@@ -24,26 +24,51 @@ function App({ flightsData }) {
             oneTransfer: false,
         },
         price: {
-            from: -1,
-            to: -1,
+            from: "",
+            to: "",
         },
+        airlines: [],
     })
 
     console.log(`filterParams`, filterParams)
 
     const onChangeSidebar = () => {
-        const { sortType, transferAmount, price } = filterParams
+        const { sortType, transferAmount, price, airlines } = filterParams
 
         console.log(filterParams)
 
-        const sortedFl = getSortedFlights(flights, sortType)
+        let sortedFl = getSortedFlights(flights, sortType)
 
         let filteredFromTo = sortedFl
 
-        if (sortType === 1) {
-            filteredFromTo = filterByPriceFromTo(sortedFl, price.from, price.to)
-        } else if (sortType === 2) {
-            filteredFromTo = filterByPriceFromTo(sortedFl, price.to, price.from)
+        if (price.from !== "" || price.to !== "") {
+            switch (sortType) {
+                case 2:
+                    filteredFromTo = filterByPriceFromTo(
+                        sortedFl,
+                        price.to,
+                        price.from
+                    )
+                    break
+
+                case 3:
+                    filteredFromTo = filterByPriceFromTo(
+                        sortedFl,
+                        price.from,
+                        price.to
+                    )
+                    break
+
+                default:
+                    sortedFl = getSortedFlights(flights, 1)
+
+                    filteredFromTo = filterByPriceFromTo(
+                        sortedFl,
+                        price.from,
+                        price.to
+                    )
+                    break
+            }
         }
 
         const filteredFl = filterByTransferAmount(
@@ -51,7 +76,9 @@ function App({ flightsData }) {
             transferAmount
         )
 
-        setFilteredFlights(filteredFl)
+        const filteredByAirline = filterByAirlines(filteredFl, airlines)
+        console.log(`filteredByAirline`, filteredByAirline)
+        setFilteredFlights(filteredByAirline)
     }
 
     React.useEffect(() => {

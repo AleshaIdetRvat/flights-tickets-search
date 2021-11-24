@@ -134,15 +134,26 @@ const FlightCards = (props) => {
 
     return (
         <div className='cards'>
-            <ul className='cards__row'>
-                {flights.slice(0, visibleCardsCount).map((flight, i) => {
-                    return <Card {...flight} key={flight.id + i} />
-                })}
-            </ul>
-            {visibleCardsCount < flights.length - 1 && (
-                <button className='cards__show-more-btn' onClick={showMore}>
-                    Показать ещё
-                </button>
+            {flights.length === 0 ? (
+                <h2>Not Found</h2>
+            ) : (
+                <>
+                    <ul className='cards__row'>
+                        {flights
+                            .slice(0, visibleCardsCount)
+                            .map((flight, i) => {
+                                return <Card {...flight} key={flight.id + i} />
+                            })}
+                    </ul>
+                    {visibleCardsCount < flights.length - 1 && (
+                        <button
+                            className='cards__show-more-btn'
+                            onClick={showMore}
+                        >
+                            Показать ещё
+                        </button>
+                    )}
+                </>
             )}
         </div>
     )

@@ -125,7 +125,7 @@ export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
     let sortedFlights
 
     for (let i = 0; i < flightsForCards.length; i++) {
-        if (priceFrom === -1) {
+        if (priceFrom === "") {
             sortedFlights = flightsForCards
             break
         }
@@ -137,12 +137,12 @@ export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
             break
         }
     }
-    console.log("sortedFlights 0 ", sortedFlights)
 
     for (let i = 0; i < sortedFlights.length; i++) {
-        if (priceTo === -1) {
+        if (priceTo === "") {
             break
         }
+
         const { price } = sortedFlights[i]
 
         if (priceTo <= +price.amount) {
@@ -151,9 +151,15 @@ export const filterByPriceFromTo = (flightsForCards, priceFrom, priceTo) => {
         }
     }
 
-    console.log("sortedFlights 1 ", sortedFlights)
-
     return sortedFlights
+}
+
+export const filterByAirlines = (flightsForCards, airlines) => {
+    if (airlines.length === 0) return flightsForCards
+
+    return flightsForCards.filter(({ airline }) =>
+        airlines.includes(airline.caption)
+    )
 }
 
 export const getAirlinesNamesAndPrice = (flightsForCards) => {
